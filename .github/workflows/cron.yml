@@ -1,0 +1,41 @@
+name: Check for availabilities
+
+on:
+  push:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run main
+      run: python main.py
+      env:
+        FREE_USER: ${{ secrets.FREE_USER }}
+        FREE_PASS: ${{ secrets.FREE_PASS }}
+        SLUGS: ${{ secrets.SLUGS }}
+    - name: Commit changes if needed
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Update data"
+          git push origin master
+        else
+          echo "no changes";
+        fi
