@@ -2,8 +2,9 @@ name: Check for availabilities
 
 on:
   push:
+  workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   build:
