@@ -61,6 +61,7 @@ for slug in SLUGS:
             v["id"]
             for v in data["visit_motives"]
             if v["name"].startswith("1ère injection")
+            and "AstraZeneca" not in v["name"].lower()
         ][0]
     except KeyError:
         continue
