@@ -10,7 +10,7 @@ class Notification(object):
     DELAY_HOURS = 3
 
     def __init__(self, id):
-        self.id = id
+        self.id = str(id)
         self.data = json.loads(open(self.FILENAME).read())
 
     def should_warn(self):
