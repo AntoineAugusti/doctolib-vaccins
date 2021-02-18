@@ -63,7 +63,7 @@ for slug in SLUGS:
             if v["name"].startswith("1ère injection")
             and "astrazeneca" not in v["name"].lower()
         ][0]
-    except KeyError:
+    except IndexError:
         continue
 
     agendas_id = "-".join([str(a["id"]) for a in data["agendas"]])
