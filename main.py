@@ -64,6 +64,7 @@ for slug in SLUGS:
             and "astrazeneca" not in v["name"].lower()
         ][0]
     except IndexError:
+        print(f"Cannot find a visite motive at {center}")
         continue
 
     agendas_id = "-".join([str(a["id"]) for a in data["agendas"]])
